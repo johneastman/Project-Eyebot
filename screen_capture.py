@@ -51,4 +51,4 @@ def screen_record(bounding_box, color_key="default"):
             break
 
 if __name__ == "__main__":
-    screen_record((8, 32, 808, 482), color_key="grey")
+    screen_record((8, 32, 808, 482), color_key="rgb")
