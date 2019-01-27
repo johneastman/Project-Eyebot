@@ -26,6 +26,8 @@ import numpy as np
 from PIL import ImageGrab
 import cv2
 import ctypes
+import time
+from random import random
 
 screen_color = {"default": 0,
                 "rgb":     cv2.COLOR_BGR2RGB,
@@ -37,7 +39,8 @@ def process_img(original_image):
     return processed_img
 
 def save_screenshot(screen, filename):
-    cv2.imwrite(filename, screen)
+    print(f"Saving {filename}")
+    cv2.imwrite(filename, cv2.cvtColor(screen, cv2.COLOR_RGB2BGR))
 
 def screen_record(bounding_box, color_key="default"): 
     
@@ -45,10 +48,15 @@ def screen_record(bounding_box, color_key="default"):
     while True:
         screen = np.array(ImageGrab.grab(bbox=bounding_box))
         cv2.imshow("window", cv2.cvtColor(screen, color))
+        filename = f"Geckos/{time.time()}_{random()}.jpeg"
+        save_screenshot(screen, filename)
 
         if cv2.waitKey(25) & 0xFF == ord("q"):
             cv2.destroyAllWindows()
             break
 
 if __name__ == "__main__":
+    for i in range(6, 0, -1):
+        print(i)
+        time.sleep(1)
     screen_record((8, 32, 808, 482), color_key="rgb")

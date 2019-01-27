@@ -104,13 +104,13 @@ def load_image_into_numpy_array(image):
 # Size, in inches, of the output images.
 IMAGE_SIZE = (12, 8)
 
-bounding_box = (0, 0, 800, 450)
+bounding_box = (8, 32, 808, 482)
 
 with detection_graph.as_default():
     with tf.Session(graph=detection_graph) as sess:
         while True:
             #screen = cv2.resize(grab_screen(region=(0,40,1280,745)), (WIDTH,HEIGHT))
-            screen = cv2.resize(grab_screen(region=(0,40,800,450)), (800,450))  # np.array(ImageGrab.grab(bbox=bounding_box)) 
+            screen = cv2.resize(grab_screen(region=bounding_box), (800,450))  # np.array(ImageGrab.grab(bbox=bounding_box)) 
             image_np = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
             # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
             image_np_expanded = np.expand_dims(image_np, axis=0)
