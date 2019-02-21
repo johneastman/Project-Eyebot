@@ -1,2 +1,8 @@
-DataProcessing/
+# Directories
 __pycache__/
+DataProcessing/
+Tensorflow/
+fallout_inference_graph/
+fallout_inference_graph2/
+gecko_inference_graph/
+misc/

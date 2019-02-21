@@ -2,7 +2,7 @@
 
 MIT License
 
-Copyright (c) 2018 jeastmanGIT
+Copyright (c) 2018 Caitlin Chapdelaine and John Eastman
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -27,13 +27,17 @@ SOFTWARE.
 import ctypes
 import time
 import random
+import win32gui
+import win32api
 
-LEFT_CLICK_TIME = 0.01
-RIGHT_CLICK_TIME = 0.5
-MOUSE_SLEEP = 0.013
+# Keys
+W = "W"
+A = "A"
+S = "S"
+D = "D"
 
-direct_keys  = {"W": 0x11, "A": 0x1E, "S": 0x1F, "D": 0x20}
-virtual_keys = {"W": 0x57, "A": 0x41, "S": 0x53, "D": 0x44}
+direct_keys  = {W: 0x11, A: 0x1E, S: 0x1F, D: 0x20}
+virtual_keys = {W: 0x57, A: 0x41, S: 0x53, D: 0x44}
 
 mouse_clicks = {"left_down": 0x2, "left_up": 0x4,
                 "right_down":0x8, "right_up": 0x10, "no_click": 0}
@@ -79,6 +83,19 @@ def is_key_pressed(key):
     https://docs.microsoft.com/en-us/windows/desktop/inputdev/virtual-key-codes
     """
     virtual_key_hex_code = virtual_keys[key]
-    return ctypes.windll.user32.GetKeyState(virtual_key_hex_code) > 0
-        
+    return ctypes.windll.user32.GetKeyState(virtual_key_hex_code) > 1
 
+def move_mouse(x, y):
+    pos = (x, y)
+    win32api.SetCursorPos(pos)
+  
+def get_mouse_pos():
+    _, _, pos = win32gui.GetCursorInfo()
+    return pos
+    
+if __name__ == "__main__":
+    '''
+    while True:
+        pos = get_mouse_pos()
+        print(pos)
+    '''
