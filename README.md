@@ -1,4 +1,4 @@
 # Project Eyebot
 
 # License
-This project is under the [MIT License](https://github.com/johneastman/Project-Eyebot/blob/master/LICENSE).
+This project is under the [Apache License 2.0](https://github.com/johneastman/Project-Eyebot/blob/master/LICENSE).
