@@ -1,31 +1,25 @@
-"""An object-detection agent.
+"""This is an artificial agent that plays "Fallout: New Vegas".
 
-MIT License
+NOTICE: This file has been modified from its original version. See below:
+coding: utf-8
+Object Detection Demo
+License: Apache License 2.0 (https://github.com/tensorflow/models/blob/master/LICENSE)
+source: https://github.com/tensorflow/models
 
-Modifications Copyright (c) 2018 Caitlin Chapdelaine and John Eastman
+Copyright 2018 Caitlin Chapdelaine and John Eastman
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+http://www.apache.org/licenses/LICENSE-2.0
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 """
-# coding: utf-8
-# # Object Detection Demo
-# License: Apache License 2.0 (https://github.com/tensorflow/models/blob/master/LICENSE)
-# source: https://github.com/tensorflow/models
 import numpy as np
 import os
 import tensorflow as tf
@@ -37,6 +31,25 @@ from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
 
 import direct_keys  # direct_keys.py
+
+
+def image_percent_difference(previous_frame, current_frame):
+    """Calculate the percent difference between two images.
+    
+    0.0 means the two images are identical
+    1.0 means the two images are completely identical
+    
+    The code in this function is based on code found here:
+    https://stackoverflow.com/questions/51288756/how-do-i-calculate-the-percentage-of-difference-between-two-images-using-python
+    """
+    abs_diff = cv2.absdiff(previous_frame, current_frame)
+    
+    # Convert to integer type
+    abs_diff = abs_diff.astype(np.uint8)
+    
+    # Return the percent difference between the two images
+    return np.count_nonzero(abs_diff) / abs_diff.size
+
 
 # Path to label map
 PATH_TO_LABELS = os.path.join(os.getcwd(), "fallout_inference_graph\\labelmap.pbtxt")
@@ -73,7 +86,7 @@ back_key = direct_keys.S
 with detection_graph.as_default():
     with tf.Session(graph=detection_graph) as sess:
         while True:
-        
+
             # Capture the screen
             screen = cv2.resize(np.asarray(ImageGrab.grab(bbox=bounding_box)), (WIDTH, HEIGHT))
 
@@ -116,7 +129,7 @@ with detection_graph.as_default():
                     
                     # Distance 
                     distance = round((1 - (boxes[0][i][3] - boxes[0][i][1])) ** 4, 3)
-                    enemy_info.append((distance, mid_x, mid_x))
+                    enemy_info.append((distance, mid_x, mid_y))
                     
                     # cv2.circle(image_np,(mid_x, mid_y), 3, (0,0,255), -1)
             if len(enemy_info) > 0:  # If an enemy has been detected
@@ -142,9 +155,9 @@ with detection_graph.as_default():
                 direct_keys.press_mouse(dx=delta_x, dy=delta_y)
                 
                 # Shoot
-                # direct_keys.press_mouse("left_down")
-                # time.sleep(0.1)
-                # direct_keys.press_mouse("left_up")
+                direct_keys.press_mouse("left_down")
+                time.sleep(0.1)
+                direct_keys.press_mouse("left_up")
                 
                 # Move the agent backwards if the enemy gets too close
                 if closest_enemy_distance < 0.60:
