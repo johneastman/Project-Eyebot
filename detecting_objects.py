@@ -31,7 +31,7 @@ from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
 
 import direct_keys  # direct_keys.py
-
+# import navigation_predictions  # navigation_predictions.py
 
 def image_percent_difference(previous_frame, current_frame):
     """Calculate the percent difference between two images.
@@ -50,6 +50,8 @@ def image_percent_difference(previous_frame, current_frame):
     # Return the percent difference between the two images
     return np.count_nonzero(abs_diff) / abs_diff.size
 
+
+# Load the navigation model
 
 # Path to label map
 PATH_TO_LABELS = os.path.join(os.getcwd(), "fallout_inference_graph\\labelmap.pbtxt")
@@ -82,6 +84,7 @@ HEIGHT = bounding_box[3]
 
 within_range = False  # Whether the agent is a certain distance from an enemy or not
 back_key = direct_keys.S
+forward_key = direct_keys.W
 
 with detection_graph.as_default():
     with tf.Session(graph=detection_graph) as sess:
@@ -119,7 +122,7 @@ with detection_graph.as_default():
                 category_index,
                 use_normalized_coordinates=True,
                 line_thickness=8)
-
+                
             # Our code starts here
             enemy_info = []
             for i, b in enumerate(boxes[0]):
@@ -133,6 +136,8 @@ with detection_graph.as_default():
                     
                     # cv2.circle(image_np,(mid_x, mid_y), 3, (0,0,255), -1)
             if len(enemy_info) > 0:  # If an enemy has been detected
+            
+                direct_keys.release_key(forward_key)
                 
                 # Retrieve the coordinates of the closest enemy
                 closest_enemy_distance, mid_x, mid_y = sorted(enemy_info, key=lambda x: x[0])[0]
@@ -165,6 +170,22 @@ with detection_graph.as_default():
                     within_range = True
                 else:
                     within_range = False
+                    
+            else:
+                direct_keys.release_key(back_key)
+                direct_keys.press_key(forward_key)
+                
+                if time.time() - start_time >= 5.0:
+                    percent_difference = image_percent_difference(previous_screen, screen)
+                    print(percent_difference)
+                    if percent_difference >= 0.95:
+                        print(f"Agent is stuck")
+                        direct_keys.move_mouse_over_time(50)
+                    
+                    # Reset previous screen
+                    previous_screen = screen
+                    
+                    start_time = time.time()
 
             # Release the back key if the enemy is no longer within range
             if not within_range:

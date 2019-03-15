@@ -1,7 +1,10 @@
 # Directories
 __pycache__/
+navigation_data_collection/
 DataProcessing/
 Tensorflow/
 fallout_inference_graph2/
 gecko_inference_graph/
 misc/
+
+*.model
