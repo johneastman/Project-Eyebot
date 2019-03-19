@@ -33,24 +33,13 @@ from object_detection.utils import visualization_utils as vis_util
 import direct_keys  # direct_keys.py
 # import navigation_predictions  # navigation_predictions.py
 
-def image_percent_difference(previous_frame, current_frame):
-    """Calculate the percent difference between two images.
+def predict(image):
     
-    0.0 means the two images are identical
-    1.0 means the two images are completely identical
+    new_screen = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    new_screen = cv2.resize(new_screen, (450, 800))
+    action = model.predict([new_screen.reshape(1, 450, 800)])
+    return action[0]
     
-    The code in this function is based on code found here:
-    https://stackoverflow.com/questions/51288756/how-do-i-calculate-the-percentage-of-difference-between-two-images-using-python
-    """
-    abs_diff = cv2.absdiff(previous_frame, current_frame)
-    
-    # Convert to integer type
-    abs_diff = abs_diff.astype(np.uint8)
-    
-    # Return the percent difference between the two images
-    return np.count_nonzero(abs_diff) / abs_diff.size
-
-
 # Load the navigation model
 
 # Path to label map
@@ -83,13 +72,31 @@ WIDTH =  bounding_box[2]
 HEIGHT = bounding_box[3]
 
 within_range = False  # Whether the agent is a certain distance from an enemy or not
+is_combat_mode = False
+
 back_key = direct_keys.S
 forward_key = direct_keys.W
 
-with detection_graph.as_default():
-    with tf.Session(graph=detection_graph) as sess:
-        while True:
+prev_key, prev_mouse = ("W", "none")
+actions = [("W", "right"),   ("W", "left"),   ("W", "none"),
+           ("A", "right"),   ("A", "left"),   ("A", "none"),
+           ("S", "right"),   ("S", "left"),   ("S", "none"),
+           ("D", "right"),   ("D", "left"),   ("D", "none"),
+           ("NIL", "right"), ("NIL", "left"), ("NIL", "none")]
 
+to_move = {"right": -100,
+           "left":  100,
+           "none":  0}
+           
+start_time = time.time()
+
+with detection_graph.as_default():
+
+    while True:
+        
+        # Object Detection
+        with tf.Session(graph=detection_graph) as sess:
+        
             # Capture the screen
             screen = cv2.resize(np.asarray(ImageGrab.grab(bbox=bounding_box)), (WIDTH, HEIGHT))
 
@@ -137,6 +144,8 @@ with detection_graph.as_default():
                     # cv2.circle(image_np,(mid_x, mid_y), 3, (0,0,255), -1)
             if len(enemy_info) > 0:  # If an enemy has been detected
             
+                is_combat_mode = True
+            
                 direct_keys.release_key(forward_key)
                 
                 # Retrieve the coordinates of the closest enemy
@@ -170,22 +179,34 @@ with detection_graph.as_default():
                     within_range = True
                 else:
                     within_range = False
-                    
+            
+            # Navigation Agent
             else:
-                direct_keys.release_key(back_key)
-                direct_keys.press_key(forward_key)
-                
-                if time.time() - start_time >= 5.0:
-                    percent_difference = image_percent_difference(previous_screen, screen)
-                    print(percent_difference)
-                    if percent_difference >= 0.95:
-                        print(f"Agent is stuck")
-                        direct_keys.move_mouse_over_time(50)
+                graph2 = tf.Graph()
+                with graph2.as_default():
+                    with tf.Session(graph=graph2) as sess:
                     
-                    # Reset previous screen
-                    previous_screen = screen
+                        # Capture the screen
+                        screen = cv2.resize(np.asarray(ImageGrab.grab(bbox=bounding_box)), (WIDTH, HEIGHT))
+
+                        # Convert the screen to a numpy array
+                        image_np = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
                     
-                    start_time = time.time()
+                        model = tf.keras.models.load_model("navigation.model")
+                    
+                        image_np = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
+                        predicted_action = predict(image_np)
+                        key, mouse = actions[np.argmax(predicted_action)]
+                        
+                        # Release the previously-pressed key
+                        direct_keys.release_key(prev_key)
+                        
+                        direct_keys.press_key(key)
+                        direct_keys.press_mouse(dx=to_move[mouse])
+                        
+                        # Update the previous key and mouse presses
+                        prev_key = key
+                        prev_mouse = mouse
 
             # Release the back key if the enemy is no longer within range
             if not within_range:
