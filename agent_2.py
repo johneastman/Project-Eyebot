@@ -33,7 +33,7 @@ from object_detection.utils import visualization_utils as vis_util
 import direct_keys  # direct_keys.py
 # import navigation_predictions  # navigation_predictions.py
 
-def predict(image):
+def predict(model, image):
     
     new_screen = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     new_screen = cv2.resize(new_screen, (450, 800))
@@ -58,7 +58,7 @@ with detection_graph.as_default():
         serialized_graph = fid.read()
         od_graph_def.ParseFromString(serialized_graph)
         tf.import_graph_def(od_graph_def, name='')
-
+        
 # Label maps map indices to category names, so that when our convolution network
 # predicts `5`, we know that this corresponds to `airplane`.  Here we use internal
 # utility functions, but anything that returns a dictionary mapping integers to
@@ -91,12 +91,14 @@ to_move = {"right": -100,
 start_time = time.time()
 
 with detection_graph.as_default():
+    with tf.Session(graph=detection_graph) as sess:
+    
+        # Load navigation model
+        # https://stackoverflow.com/questions/53705799/integrating-tensorflow-object-detection-with-keras-cnn-classifier
+        navigation_model = tf.keras.models.load_model("navigation.model")
+    
+        while True:
 
-    while True:
-        
-        # Object Detection
-        with tf.Session(graph=detection_graph) as sess:
-        
             # Capture the screen
             screen = cv2.resize(np.asarray(ImageGrab.grab(bbox=bounding_box)), (WIDTH, HEIGHT))
 
@@ -180,33 +182,22 @@ with detection_graph.as_default():
                 else:
                     within_range = False
             
-            # Navigation Agent
             else:
-                graph2 = tf.Graph()
-                with graph2.as_default():
-                    with tf.Session(graph=graph2) as sess:
-                    
-                        # Capture the screen
-                        screen = cv2.resize(np.asarray(ImageGrab.grab(bbox=bounding_box)), (WIDTH, HEIGHT))
-
-                        # Convert the screen to a numpy array
-                        image_np = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
-                    
-                        model = tf.keras.models.load_model("navigation.model")
-                    
-                        image_np = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
-                        predicted_action = predict(image_np)
-                        key, mouse = actions[np.argmax(predicted_action)]
-                        
-                        # Release the previously-pressed key
-                        direct_keys.release_key(prev_key)
-                        
-                        direct_keys.press_key(key)
-                        direct_keys.press_mouse(dx=to_move[mouse])
-                        
-                        # Update the previous key and mouse presses
-                        prev_key = key
-                        prev_mouse = mouse
+                # Navigation Agent: 
+                # This agent is triggered when there are no enemies detected
+                # on the screen.
+                predicted_action = predict(navigation_model, image_np)
+                key, mouse = actions[np.argmax(predicted_action)]
+                
+                # Release the previously-pressed key
+                direct_keys.release_key(prev_key)
+                
+                direct_keys.press_key(key)
+                direct_keys.press_mouse(dx=to_move[mouse])
+                
+                # Update the previous key and mouse presses
+                prev_key = key
+                prev_mouse = mouse
 
             # Release the back key if the enemy is no longer within range
             if not within_range:
