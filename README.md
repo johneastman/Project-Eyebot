@@ -1,5 +1,5 @@
 # Project Eyebot
-Project Eyebot is an artificial agent that plays [Fallout: New Vegas](https://fallout.fandom.com/wiki/Fallout:_New_Vegas).
+Project Eyebot is an artificial agent that plays [Fallout: New Vegas](https://fallout.fandom.com/wiki/Fallout:_New_Vegas). This project was designed and developed by myself and Caitlin Chapdelaine and was our Senior project at [Champlain College](https://www.champlain.edu/).
 
 # Object Detection
 The first thing you will have to do is label the objects in your images. For this process, there is an excellent tool called [LabelImg](https://github.com/tzutalin/labelImg), which generates XML files that are used by tensorflow to train the model.
