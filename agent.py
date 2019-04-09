@@ -33,7 +33,8 @@ from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
 
 import direct_keys  # direct_keys.py
-# import navigation_predictions  # navigation_predictions.py
+
+NAVIGATION_MODEL_PATH = "239.model"
 
 def predict(model, image):
 
@@ -98,12 +99,12 @@ with detection_graph.as_default():
     with tf.Session(graph=detection_graph) as sess:
     
         # Load navigation model
-        navigation_model = tf.keras.models.load_model("navigation_239.model")
+        navigation_model = tf.keras.models.load_model(NAVIGATION_MODEL_PATH)
     
         while True:
 
-            # Capture the screen
-            screen = cv2.resize(np.asarray(ImageGrab.grab(bbox=bounding_box)), (WIDTH, HEIGHT))
+            # Capture the screen and convert to a numpy array for the model
+            screen = np.asarray(ImageGrab.grab(bbox=bounding_box))
 
             # Convert the screen to a numpy array
             image_np = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
