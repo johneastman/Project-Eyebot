@@ -8,10 +8,10 @@ For the purpose of this project, the object-detection model was trained on the f
 
 | Enemy Name | Enemy Image |
 |:----------:|:-----------:|
-| Bloatfly   | ![Bloatfly](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Bloatfly.png) |
-| Deathclaw  | ![Deathclaw](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Deathclaw.png) |
-| Gecko      | ![Gecko](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Gecko.png) |
-| Radscorpion | ![Radscorpion](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Radscorpion.png) |
+| Bloatfly   | [![Bloatfly](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Bloatfly.png)](https://fallout.fandom.com/wiki/Bloatfly_(Fallout:_New_Vegas)) |
+| Deathclaw  | [![Deathclaw](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Deathclaw.png)](https://fallout.fandom.com/wiki/Deathclaw_(Fallout:_New_Vegas)) |
+| Gecko      | [![Gecko](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Gecko.png)](https://fallout.fandom.com/wiki/Gecko_(Fallout:_New_Vegas)) |
+| Radscorpion | [![Radscorpion](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Radscorpion.png)](https://fallout.fandom.com/wiki/Radscorpion_(Fallout:_New_Vegas)) |
 | Bark Scorpion | [![Bark Scorpion](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Scorpion.png)](https://fallout.fandom.com/wiki/Bark_scorpion) |
 
 # Image Classification
