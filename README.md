@@ -6,6 +6,11 @@ Object detection was used for the combat agent. This entailed training an object
 
 For the purpose of this project, the object-detection model was trained on the following enemies:
 
+| Enemy Name | Enemy Image |
+|------------|--------------
+| Bloatfly   | ![Bloatfly](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Bloatfly.png){:height="50%" width="50%"} |
+
+
 # Image Classification
 Image classification was used to train the navigation agent.
 
