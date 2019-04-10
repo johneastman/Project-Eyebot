@@ -12,8 +12,7 @@ For the purpose of this project, the object-detection model was trained on the f
 | Deathclaw  | ![Deathclaw](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Deathclaw.png) |
 | Gecko      | ![Gecko](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Gecko.png) |
 | Radscorpion | ![Radscorpion](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Radscorpion.png) |
-| Bark Scorpion | ![Bark Scorpion](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Scorpion.png) |
-
+| Bark Scorpion | [![Bark Scorpion](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Scorpion.png)](https://fallout.fandom.com/wiki/Bark_scorpion) |
 
 # Image Classification
 Image classification was used to train the navigation agent.
