@@ -7,8 +7,12 @@ Object detection was used for the combat agent. This entailed training an object
 For the purpose of this project, the object-detection model was trained on the following enemies:
 
 | Enemy Name | Enemy Image |
-|------------|--------------
-| Bloatfly   | ![Bloatfly](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Bloatfly.png){:height="50%" width="50%"} |
+|:----------:|:-----------:|
+| Bloatfly   | ![Bloatfly](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Bloatfly.png) |
+| Deathclaw  | ![Deathclaw](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Deathclaw.png) |
+| Gecko      | ![Gecko](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Gecko.png) |
+| Radscorpion | ![Radscorpion](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Radscorpion.png) |
+| Bark Scorpion | ![Bark Scorpion](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Scorpion.png) |
 
 
 # Image Classification
