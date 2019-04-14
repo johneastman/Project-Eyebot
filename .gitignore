@@ -1,6 +1,5 @@
 # Directories
 __pycache__/
-navigation_data_collection/
 DataProcessing/
 misc/
 images/
