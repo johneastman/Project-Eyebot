@@ -96,15 +96,16 @@ def press_mouse(button="no_click", dx=0, dy=0):
 def press_key(key):
     """Press a keyboard key."""
     if key not in direct_keys:
-        raise KeyError(f"{key} is an invalid key")
+        # raise KeyError(f"{key} is an invalid key")
+        return
     key_hex_code = direct_keys[key]
     ctypes.windll.user32.keybd_event(0, key_hex_code, 0, 0)
 
 def release_key(key):
     """Release a pressed keyboard key."""
     if key not in direct_keys:
-        raise KeyError(f"{key} is an invalid key")
-    
+        #raise KeyError(f"{key} is an invalid key")
+        return
     # Get the direct-key hex-code associated with 'key'.
     key_hex_code = direct_keys[key]
     

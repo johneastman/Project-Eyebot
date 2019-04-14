@@ -34,7 +34,7 @@ from object_detection.utils import visualization_utils as vis_util
 
 import direct_keys  # direct_keys.py
 
-NAVIGATION_MODEL_PATH = "239.model"
+NAVIGATION_MODEL_PATH = "navigation_model_1554919937.model"
 
 def predict(model, image):
 
@@ -106,10 +106,11 @@ with detection_graph.as_default():
             # Capture the screen and convert to a numpy array for the model
             screen = np.asarray(ImageGrab.grab(bbox=bounding_box))
 
-            # Convert the screen to a numpy array
+            # Convert to RGB color scheme
             image_np = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
             
-            # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
+            # Expand dimensions since the model expects images to have shape: 
+            # [1, None, None, 3]
             image_np_expanded = np.expand_dims(image_np, axis=0)
             image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
             
@@ -126,6 +127,7 @@ with detection_graph.as_default():
             (boxes, scores, classes, num_detections) = sess.run(
                 [boxes, scores, classes, num_detections],
                 feed_dict={image_tensor: image_np_expanded})
+            
             # Visualization of the results of a detection.
             vis_util.visualize_boxes_and_labels_on_image_array(
                 image_np,

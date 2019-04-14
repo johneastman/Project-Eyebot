@@ -173,8 +173,6 @@ with open(os.path.join(FALLOUT_TRAINING, MODEL_NAME), "w") as config_file:
 # Move folders to object_detection folder to begin training
 OBJECT_DETECTION_PATH = r"D:\Coding\Tensorflow\models\research\object_detection"
 
-# if os.path.isdir(os.path.join(OBJECT_DETECTION_PATH, ))
-
 try:
     shutil.move(FALLOUT_IMAGES, OBJECT_DETECTION_PATH)
     shutil.move(FALLOUT_TRAINING, OBJECT_DETECTION_PATH)

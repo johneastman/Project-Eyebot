@@ -4,3 +4,9 @@ navigation_data_collection/
 DataProcessing/
 misc/
 images/
+checkpoints/
+logs/
+models/
+
+*.npy
+*.model
