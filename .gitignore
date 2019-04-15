@@ -1,11 +1,11 @@
 # Directories
 __pycache__/
-DataProcessing/
 misc/
 images/
 checkpoints/
 logs/
 models/
+fallout_inference_graph/
 
-*.npy
 *.model
+*.npy
