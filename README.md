@@ -10,6 +10,8 @@ For the purpose of this project, the object-detection model was trained on the f
 |:--------:|:---------:|:-----:|:-----------:|:-------------:|
 | [![Bloatfly](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Bloatfly.png)](https://fallout.fandom.com/wiki/Bloatfly_(Fallout:_New_Vegas)) | [![Deathclaw](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Deathclaw.png)](https://fallout.fandom.com/wiki/Deathclaw_(Fallout:_New_Vegas)) | [![Gecko](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Gecko.png)](https://fallout.fandom.com/wiki/Gecko_(Fallout:_New_Vegas)) | [![Radscorpion](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Radscorpion.png)](https://fallout.fandom.com/wiki/Radscorpion_(Fallout:_New_Vegas)) | [![Bark Scorpion](https://github.com/johneastman/Project-Eyebot/blob/master/images/enemies/Scorpion.png)](https://fallout.fandom.com/wiki/Bark_scorpion) |
 
+Feel free to click on each enemy's image to see in-game information about it.
+
 # Image Classification
 Image classification was used to train the navigation agent. Training the navigation agent also involved collecting data manually, though the process was slightly different than for the object detection model. The game was played, and each frame was mapped to a keyboard and mouse event. Below are the supported keyboard and mouse events:
 
