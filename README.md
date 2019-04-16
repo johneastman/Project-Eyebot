@@ -13,6 +13,23 @@ For the purpose of this project, the object-detection model was trained on the f
 # Image Classification
 Image classification was used to train the navigation agent. Training the navigation agent also involved collecting data manually, though the process was slightly different than for the object detection model. The game was played, and each frame was mapped to a keyboard and mouse event. Below are the supported keyboard and mouse events:
 
+| Keyboard | Mouse | Action |
+|:--------:|:-----:|:------:|
+| W | right | Turn right and moving forward |
+| W | left  | Turn left and moving forward |
+| W | none  | Moving forward |
+| A | right | Turn right and moving left |
+| A | left  | Turn left and moving left |
+| A | none  | Moving left |
+| S | right | Turn right and moving backward |
+| S | left  | Turn left and moving backward |
+| S | none  | Moving backward |
+| D | right | Turn right and moving right |
+| D | left  | Turn left and moving right |
+| D | none  | Moving right |
+
+Due to the way that the data was collected, only one keyboard-mouse event pair can be associated with a frame, meaning that this model preclude the ability to press multiple keys, for example, at once. 
+
 # Integrating the Object Detection and Image Classification Models
 After the combat and navigation models were trained, the two models were integrated into one script. At each frame of the game, the agent would first check for enemies on the screen. If an enemy was detected with a high enough score, the agent would attack the enemy. However, if no enemies were detected, the agent would use the navigation model to move around the world.
 
