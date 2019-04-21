@@ -207,9 +207,7 @@ with detection_graph.as_default():
             if not within_range:
                 direct_keys.release_key(back_key)
 
-            '''
             cv2.imshow("window", image_np)
             if cv2.waitKey(25) & 0xFF == ord("q"):
                 cv2.destroyAllWindows()
                 break
-            '''
