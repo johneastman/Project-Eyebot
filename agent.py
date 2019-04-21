@@ -37,7 +37,10 @@ import direct_keys  # direct_keys.py
 NAVIGATION_MODEL_PATH = "navigation_model_1554919937.model"
 
 def predict(model, image):
-
+    """Predict an action from the image (navigation agent).
+    
+    The image is processed before being fed into the model.
+    """
     width = 75
     height = 133
     
@@ -45,8 +48,6 @@ def predict(model, image):
     new_screen = cv2.resize(new_screen, (width, height))
     action = model.predict([new_screen.reshape(1, width, height)])
     return action[0]
-    
-# Load the navigation model
 
 # Path to label map
 PATH_TO_LABELS = os.path.join(os.getcwd(), "fallout_inference_graph\\labelmap.pbtxt")
@@ -97,10 +98,10 @@ to_move = {"right": -10,
 
 with detection_graph.as_default():
     with tf.Session(graph=detection_graph) as sess:
-    
+
         # Load navigation model
         navigation_model = tf.keras.models.load_model(NAVIGATION_MODEL_PATH)
-    
+
         while True:
 
             # Capture the screen and convert to a numpy array for the model
@@ -141,23 +142,21 @@ with detection_graph.as_default():
             # Our code starts here
             enemy_info = []
             for i, b in enumerate(boxes[0]):
+                # Only save enemies with a score above or equal to 90 percent.
                 if scores[0][i] >= 0.90:
                     mid_x = ((boxes[0][i][1] + boxes[0][i][3]) / 2)
                     mid_y = ((boxes[0][i][0] + boxes[0][i][2]) / 2)
-                    
+
                     # Distance 
                     distance = round((1 - (boxes[0][i][3] - boxes[0][i][1])) ** 4, 3)
                     enemy_info.append((distance, mid_x, mid_y))
-                    
-                    # cv2.circle(image_np,(mid_x, mid_y), 3, (0,0,255), -1)
-            if len(enemy_info) > 0:  # If an enemy has been detected
+
+            if len(enemy_info) > 0:  # Combat Agent: if an enemy has been detected
             
                 direct_keys.release_key(forward_key)
                 
                 # Retrieve the coordinates of the closest enemy
                 closest_enemy_distance, mid_x, mid_y = sorted(enemy_info, key=lambda x: x[0])[0]
-                
-                # cv2.circle(image_np,(int(mid_x * WIDTH), int(mid_y * HEIGHT)), 3, (0,0,255), -1)
                 
                 # The game is being played in a window smaller than the resolution
                 # of the monitor. This gets the coordinates of the enemy-detection
@@ -207,6 +206,7 @@ with detection_graph.as_default():
             if not within_range:
                 direct_keys.release_key(back_key)
 
+            # Show what the object detection model is seeing
             cv2.imshow("window", image_np)
             if cv2.waitKey(25) & 0xFF == ord("q"):
                 cv2.destroyAllWindows()
