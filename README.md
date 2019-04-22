@@ -35,5 +35,8 @@ Due to the way that the data was collected, only one keyboard-mouse event pair c
 ## Integrating the Object Detection and Image Classification Models
 After the combat and navigation models were trained, the two models were integrated into one script. At each frame of the game, the agent would first check for enemies on the screen. If an enemy was detected with a high enough score, the agent would attack the enemy. However, if no enemies were detected, the agent would use the navigation model to move around the world.
 
+## Additional Information
+For more information about this project, check out the accompanying paper: [Project Eyebot](https://docs.google.com/document/d/13SB1ig0cF8l1poeoMTwaSeCFEB7Hkg8I_UgYqU66fHw/edit?usp=sharing).
+
 ## License
 This project is licensed under the [Apache License 2.0](https://github.com/johneastman/Project-Eyebot/blob/master/LICENSE).
