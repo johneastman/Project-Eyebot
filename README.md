@@ -38,5 +38,7 @@ After the combat and navigation models were trained, the two models were integra
 ## Additional Information
 For more information about this project, check out the accompanying paper: [Project Eyebot](https://docs.google.com/document/d/13SB1ig0cF8l1poeoMTwaSeCFEB7Hkg8I_UgYqU66fHw/edit?usp=sharing).
 
+To see our agent in action, check out [these](https://drive.google.com/drive/folders/1WIEmPwDzIaX37J_7ZbNP4GulqimJ_CJQ?usp=sharing) videos.
+
 ## License
 This project is licensed under the [Apache License 2.0](https://github.com/johneastman/Project-Eyebot/blob/master/LICENSE).
